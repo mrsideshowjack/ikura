@@ -1,6 +1,5 @@
 <template>
   <div id="app">
-    <HelloWorld msg="Ikura?" />
     <button
       @click="
         isFloat = !isFloat;
@@ -12,24 +11,28 @@
     <span> <input v-model="numMax" placeholder="num max" /> Max </span>
     <button @click="newQuestion()">new Question</button>
     <button @click="repeatSpeak()">speak again</button>
-    <span
-      ><input v-model="answerNum" placeholder="guess num"/>
-      <input v-model="answerCounter" placeholder="guess counter"
-    /></span>
-    <button @click="answerQuestion()">enter answer</button>
+    <input v-model="answerCounter" placeholder="guess counter" />
     <p>{{ answer }}</p>
     <p>{{ previousAnswers }}</p>
+
+    <Keypad
+      @addNum="addNum"
+      @bksp="bksp"
+      @clear="clear"
+      @enter="answerQuestion"
+      :answer-num="answerNum"
+    />
   </div>
 </template>
 
 <script>
-import HelloWorld from "./components/HelloWorld.vue";
+import Keypad from "./components/Keypad.vue";
 import _ from "lodash";
 import speak from "./utils/speak";
 export default {
   name: "App",
   components: {
-    HelloWorld
+    Keypad
   },
   data() {
     return {
@@ -37,12 +40,12 @@ export default {
       isFloat: false,
       numMax: 100,
       decimalPlace: 3,
-      answerNum: null,
-      answerCounter: null,
+      answerNum: "",
+      answerCounter: "",
       previousAnswers: [],
       tries: 0,
       counter: null,
-      availableCounters: ["$", "monies", "legos"]
+      availableCounters: ["$", "!", "@"]
     };
   },
   mounted() {
@@ -59,8 +62,8 @@ export default {
   methods: {
     newQuestion() {
       this.tries = 0;
-      this.answerNum = null;
-      this.answerCounter = null;
+      this.answerNum = "";
+      this.answerCounter = "";
       this.genQuestionValue();
       this.repeatSpeak();
     },
@@ -69,6 +72,9 @@ export default {
       this.counter = this.availableCounters[
         _.random(0, this.availableCounters.length - 1)
       ];
+    },
+    setAnswerNum(val) {
+      this.answerNum = val;
     },
     answerQuestion() {
       this.tries++;
@@ -86,6 +92,16 @@ export default {
     },
     repeatSpeak() {
       speak(this.questionValue);
+    },
+    addNum(key) {
+      this.answerNum = this.answerNum + key;
+    },
+    bksp() {
+      this.answerNum = this.answerNum.slice(0, -1);
+    },
+    clear() {
+      this.answerNum = "";
+      this.answerCounter = "";
     }
   }
 };
