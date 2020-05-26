@@ -1,38 +1,44 @@
 <template>
-  <div id="app">
-    <button
-      @click="
-        isFloat = !isFloat;
-        newQuestion();
-      "
-    >
-      float {{ isFloat }}
-    </button>
-    <span> <input v-model="numMax" placeholder="num max" /> Max </span>
-    <button @click="newQuestion()">new Question</button>
-    <button @click="repeatSpeak()">speak again</button>
-    <input v-model="answerCounter" placeholder="guess counter" />
-    <p>{{ answer }}</p>
-    <p>{{ previousAnswers }}</p>
+  <v-app id="app">
+    <v-content class="content">
+      <Input :answer-num="answerNum" :answer-counter="answerCounter" />
+      <section class="options">
+        <v-btn
+          @click="
+            isFloat = !isFloat;
+            newQuestion();
+          "
+        >
+          float {{ isFloat }}
+        </v-btn>
+        <span> <input v-model="numMax" placeholder="num max" /> Max </span>
+        <v-btn @click="newQuestion()">new Question</v-btn>
+        <v-btn @click="repeatSpeak()">speak again</v-btn>
+        <input v-model="answerCounter" placeholder="guess counter" />
+      </section>
 
-    <Keypad
-      @addNum="addNum"
-      @bksp="bksp"
-      @clear="clear"
-      @enter="answerQuestion"
-      :answer-num="answerNum"
-    />
-  </div>
+      <Keypad
+        @addNum="addNum"
+        @bksp="bksp"
+        @clear="clear"
+        @enter="answerQuestion"
+        :answer-num="answerNum"
+      />
+    </v-content>
+  </v-app>
 </template>
 
 <script>
-import Keypad from "./components/Keypad.vue";
 import _ from "lodash";
 import speak from "./utils/speak";
+import Keypad from "./components/Keypad.vue";
+import Input from "./components/Input.vue";
+
 export default {
   name: "App",
   components: {
-    Keypad
+    Keypad,
+    Input
   },
   data() {
     return {
@@ -45,7 +51,7 @@ export default {
       previousAnswers: [],
       tries: 0,
       counter: null,
-      availableCounters: ["$", "!", "@"]
+      availableCounters: ["$", "@"]
     };
   },
   mounted() {
@@ -113,10 +119,15 @@ export default {
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   text-align: center;
-  color: #2c3e50;
-  margin-top: 60px;
+}
+.v-content__wrap {
   display: flex;
   flex-direction: column;
   align-items: center;
+  justify-content: flex-end;
+}
+.options {
+  display: flex;
+  flex-wrap: wrap;
 }
 </style>

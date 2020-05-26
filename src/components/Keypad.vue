@@ -2,9 +2,11 @@
   <div class="keypad">
     <Numpad @tap="addNum" />
     <div class="actions">
-      <span class="action-btn" @click="bksp()">bksp</span>
-      <span class="action-btn" @click="clear()">clear</span>
-      <span class="action-btn" @click="enter()">enter</span>
+      <v-btn text large dark class="action-btn" @click="bksp()">bksp</v-btn>
+      <v-btn text large dark class="action-btn" @click="clear()">clear</v-btn>
+      <v-btn large dark color="primary" class="action-btn" @click="enter()"
+        >enter</v-btn
+      >
     </div>
   </div>
 </template>
@@ -40,6 +42,7 @@ export default {
 <style scoped>
 .keypad {
   width: 100vw;
+  min-height: 60vh;
   display: flex;
   justify-content: stretch;
   align-items: stretch;
@@ -53,9 +56,8 @@ export default {
   background: #2f2f2f;
 }
 .action-btn {
-  border: 2px solid red;
   width: calc(100vw / 4);
-  min-height: 50px;
+  height: calc(70vh / 5) !important;
   display: flex;
   align-items: center;
   justify-content: center;
