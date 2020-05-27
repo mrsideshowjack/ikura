@@ -12,7 +12,6 @@
     </v-app-bar>
     <v-content class="content">
       <Input :answer-num="answerNum" :answer-counter="answerCounter.kanji" />
-
       <Popup ref="popup" :randNum="randNum" :counter="counter" />
 
       <section class="options">
@@ -55,13 +54,29 @@
         @enter="answerQuestion"
         :answer-num="answerNum"
       />
+
+      <v-dialog v-model="start" persistent max-width="290">
+        <v-card>
+          <v-card-actions class="start">
+            <v-btn
+              color="primary"
+              x-large
+              @click="
+                start = false;
+                newQuestion();
+              "
+              >Start</v-btn
+            >
+          </v-card-actions>
+        </v-card>
+      </v-dialog>
     </v-content>
   </v-app>
 </template>
 
 <script>
 import _ from "lodash";
-import speak from "./utils/speak";
+import { speakCorrect, speakIncorrect, speak } from "./utils/speak";
 import COUNTERS_LIST from "./utils/constants";
 import Keypad from "./components/Keypad.vue";
 import Drawer from "./components/Drawer.vue";
@@ -93,11 +108,11 @@ export default {
       previousAnswers: [],
       tries: 0,
       slow: false,
-      counter: null
+      counter: null,
+      start: true
     };
   },
   mounted() {
-    this.newQuestion();
     if (localStorage.previousAnswers) {
       this.previousAnswers = JSON.parse(localStorage.previousAnswers);
     }
@@ -109,12 +124,10 @@ export default {
   },
   computed: {
     questionValue() {
-      return `${_.round(this.randNum, this.decimalPlace)} ${
-        this.counter.kanji
-      }`;
+      return _.round(this.randNum, this.decimalPlace) + this.counter.kanji;
     },
     answer() {
-      return `${this.answerNum} ${this.answerCounter.kanji}`;
+      return this.answerNum + this.answerCounter.kanji;
     },
     numMax() {
       let max = "";
@@ -141,7 +154,7 @@ export default {
     async answerQuestion() {
       this.tries++;
       if (this.answer == this.questionValue) {
-        speak("正解");
+        speakCorrect();
         this.previousAnswers.push({
           questionValue: this.questionValue,
           answer: this.answer,
@@ -152,7 +165,7 @@ export default {
           this.newQuestion();
         });
       } else {
-        speak("違う");
+        speakIncorrect();
       }
     },
     async giveUp() {
@@ -176,7 +189,7 @@ export default {
       this.placeValue = val;
     },
     repeatSpeak() {
-      speak(this.questionValue, this.slow);
+      speak(this.questionValue.trim(), this.slow);
     },
     addNum(key) {
       this.answerNum = this.answerNum + key;
@@ -222,5 +235,11 @@ export default {
 }
 .v-dialog {
   background: white;
+}
+.start {
+  padding: 2rem;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 </style>
