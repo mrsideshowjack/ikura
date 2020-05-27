@@ -25,7 +25,7 @@
           <v-toolbar-title>Previous Answers</v-toolbar-title>
           <v-spacer></v-spacer>
           <v-toolbar-items>
-            <v-btn dark text @click="emitClearPreviousAnswers"
+            <v-btn dark text color="error" @click="emitClearPreviousAnswers"
               ><v-icon left>mdi-delete</v-icon> Clear</v-btn
             >
           </v-toolbar-items>
