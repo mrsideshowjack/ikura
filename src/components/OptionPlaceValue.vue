@@ -1,7 +1,7 @@
 <template>
   <div class="OptionPlaceValue">
-    <v-btn text dark @click="dialog = true">
-      Place Value
+    <v-btn large icon dark @click="dialog = true">
+      <v-icon>mdi-numeric</v-icon>
     </v-btn>
 
     <v-dialog v-model="dialog" max-width="290">

@@ -1,6 +1,6 @@
 <template>
   <div class="keypad">
-    <transition name="slide">
+    <transition :name="showNumpad ? 'slide-left' : 'slide-right'">
       <Numpad key="numpad" v-if="showNumpad" @tap="addNum" />
       <CounterSelect key="counterSelect" @tap="selectCounter" v-else />
     </transition>
@@ -17,10 +17,10 @@
         dark
         class="action-btn"
         @click="showNumpad = !showNumpad"
-        >円</v-btn
+        ><v-icon left>mdi-menu-left-outline</v-icon>円</v-btn
       >
       <v-btn large dark color="primary" class="action-btn" @click="enter()"
-        >enter</v-btn
+        ><v-icon>mdi-keyboard-return</v-icon></v-btn
       >
     </div>
   </div>
@@ -68,40 +68,54 @@ export default {
 <style scoped>
 .keypad {
   width: 100vw;
-  min-height: 60vh;
+  max-height: 60vh;
   display: flex;
   justify-content: stretch;
   align-items: stretch;
   background: #222222;
   color: white;
+  z-index: 1;
 }
 .actions {
   display: flex;
   flex-direction: column;
   align-items: center;
   background: #2f2f2f;
+  /* add margin + zindex for when transistion happends */
+  margin-left: auto;
+  z-index: 2;
 }
 .action-btn {
   width: calc(100vw / 4);
-  height: calc(70vh / 5) !important;
+  height: calc(60vh / 5) !important;
   display: flex;
   align-items: center;
   justify-content: center;
   cursor: pointer;
+  font-size: 1.7rem !important;
 }
 
 /* Transistions */
-.slide-enter-active,
-.slide-leave-active {
+.slide-left-enter-active,
+.slide-left-leave-active,
+.slide-right-enter-active,
+.slide-right-leave-active {
   transition: all 0.3s;
+  overflow-y: hidden;
+  position: fixed;
 }
 
-.slide-enter,
-.slide-leave-to {
-  transform: translate(-100%, 0);
+.slide-left-enter {
+  transform: translateX(-100%);
 }
-.slide-enter-to,
-.slide-leave {
-  transform: translate(0, 0);
+.slide-left-leave-to {
+  transform: translateX(100%);
+}
+
+.slide-right-enter {
+  transform: translateX(100%);
+}
+.slide-right-leave-to {
+  transform: translateX(-100%);
 }
 </style>

@@ -1,7 +1,7 @@
 <template>
   <div class="OptionDecimal">
-    <v-btn text dark @click="dialog = true">
-      Decimal
+    <v-btn large icon dark :outlined="isFloat" @click="dialog = true">
+      <v-icon>mdi-numeric-0</v-icon>
     </v-btn>
 
     <v-dialog v-model="dialog" max-width="290"

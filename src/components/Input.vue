@@ -24,8 +24,9 @@ export default {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  overflow-x: auto;
+  overflow-y: auto;
   word-wrap: break-word;
+  margin-bottom: auto;
 }
 .Input span {
   max-width: 85%;

@@ -47,12 +47,13 @@ export default {
   display: grid;
   justify-items: stretch;
   align-items: stretch;
+  max-height: 60vh;
   grid-template-columns: 1fr 1fr 1fr;
   grid-template-rows: 1fr 1fr 1fr 1fr;
 }
 .number-btn {
   width: calc(100vw / 4);
-  height: calc(70vh / 5) !important;
+  height: calc(60vh / 5) !important;
   display: flex;
   align-items: center;
   justify-content: center;

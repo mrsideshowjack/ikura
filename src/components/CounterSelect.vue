@@ -35,18 +35,18 @@ export default {
   display: grid;
   justify-items: stretch;
   align-items: stretch;
-  max-height: 70vh;
+  max-height: 48vh;
   overflow-y: auto;
   grid-template-columns: 1fr 1fr 1fr;
   grid-template-rows: 1fr 1fr 1fr 1fr;
 }
 .number-btn {
   width: calc(100vw / 4);
-  height: calc(70vh / 5) !important;
+  height: calc(60vh / 5) !important;
   display: flex;
   align-items: center;
   justify-content: center;
   cursor: pointer;
-  font-size: 1.5rem !important;
+  font-size: 1.7rem !important;
 }
 </style>

@@ -18,12 +18,6 @@ const COUNTERS = [
     use: "Minutes"
   },
   {
-    hiragana: "にち",
-    romanji: "nichi",
-    kanji: "日",
-    use: "Days"
-  },
-  {
     hiragana: "さい",
     romanji: "sai",
     kanji: "才",
