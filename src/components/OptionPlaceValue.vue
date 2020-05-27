@@ -52,7 +52,4 @@ export default {
 };
 </script>
 
-<style scoped>
-.OptionPlaceValue {
-}
-</style>
+<style scoped></style>
