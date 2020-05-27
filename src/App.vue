@@ -1,24 +1,38 @@
 <template>
   <v-app id="app">
+    <v-navigation-drawer app>
+      <!-- -->
+    </v-navigation-drawer>
+
+    <v-app-bar absolute flat color="white" app>
+      <v-app-bar-nav-icon @click.stop="drawer = !drawer"></v-app-bar-nav-icon>
+      <v-toolbar-title>Ikura?</v-toolbar-title>
+    </v-app-bar>
     <v-content class="content">
       <Input :answer-num="answerNum" :answer-counter="answerCounter" />
       <section class="options">
-        <v-btn
-          @click="
-            isFloat = !isFloat;
-            newQuestion();
-          "
+        <OptionPlaceValue
+          @emitPlaceVal="setPlaceValue"
+          :placeValue="placeValue"
+        />
+
+        <OptionDecimal
+          @emitFloatVal="setFloat"
+          :isFloat="isFloat"
+          :decimalPlace="decimalPlace"
+        />
+
+        <v-btn large icon dark @click="newQuestion()"
+          ><v-icon>mdi-new-box</v-icon></v-btn
         >
-          float {{ isFloat }}
-        </v-btn>
-        <span> <input v-model="numMax" placeholder="num max" /> Max </span>
-        <v-btn @click="newQuestion()">new Question</v-btn>
-        <v-btn @click="repeatSpeak()">speak again</v-btn>
-        <input v-model="answerCounter" placeholder="guess counter" />
+        <v-btn large icon dark @click="repeatSpeak()"
+          ><v-icon>mdi-autorenew</v-icon></v-btn
+        >
       </section>
 
       <Keypad
         @addNum="addNum"
+        @selectCounter="selectCounter"
         @bksp="bksp"
         @clear="clear"
         @enter="answerQuestion"
@@ -31,27 +45,32 @@
 <script>
 import _ from "lodash";
 import speak from "./utils/speak";
+import COUNTERS_LIST from "./utils/constants";
 import Keypad from "./components/Keypad.vue";
 import Input from "./components/Input.vue";
+import OptionDecimal from "./components/OptionDecimal.vue";
+import OptionPlaceValue from "./components/OptionPlaceValue.vue";
 
 export default {
   name: "App",
   components: {
     Keypad,
-    Input
+    Input,
+    OptionDecimal,
+    OptionPlaceValue
   },
   data() {
     return {
+      counters: COUNTERS_LIST,
       randNum: null,
       isFloat: false,
-      numMax: 100,
-      decimalPlace: 3,
+      placeValue: 1,
+      decimalPlace: 1,
       answerNum: "",
       answerCounter: "",
       previousAnswers: [],
       tries: 0,
-      counter: null,
-      availableCounters: ["$", "@"]
+      counter: null
     };
   },
   mounted() {
@@ -63,6 +82,13 @@ export default {
     },
     answer() {
       return `${this.answerNum} ${this.answerCounter}`;
+    },
+    numMax() {
+      let max = "";
+      for (let i = 0; i < this.placeValue; i++) {
+        max += "9";
+      }
+      return parseInt(max);
     }
   },
   methods: {
@@ -75,9 +101,7 @@ export default {
     },
     genQuestionValue() {
       this.randNum = _.random(0, this.numMax, this.isFloat);
-      this.counter = this.availableCounters[
-        _.random(0, this.availableCounters.length - 1)
-      ];
+      this.counter = this.counters[_.random(0, this.counters.length - 1)].kanji;
     },
     setAnswerNum(val) {
       this.answerNum = val;
@@ -85,7 +109,7 @@ export default {
     answerQuestion() {
       this.tries++;
       if (this.answer == this.questionValue) {
-        speak("right");
+        speak("正解");
         this.previousAnswers.push({
           questionValue: this.questionValue,
           answer: this.answer,
@@ -93,14 +117,25 @@ export default {
         });
         this.newQuestion();
       } else {
-        speak("wrong");
+        speak("違う");
       }
+    },
+    setFloat(val) {
+      this.isFloat = val.bool;
+      this.decimalPlace = val.decimalPlace;
+      this.newQuestion();
+    },
+    setPlaceValue(val) {
+      this.placeValue = val;
     },
     repeatSpeak() {
       speak(this.questionValue);
     },
     addNum(key) {
       this.answerNum = this.answerNum + key;
+    },
+    selectCounter(index) {
+      this.answerCounter = this.counters[index].kanji;
     },
     bksp() {
       this.answerNum = this.answerNum.slice(0, -1);
@@ -128,6 +163,13 @@ export default {
 }
 .options {
   display: flex;
+  width: 100vw;
   flex-wrap: wrap;
+  justify-content: space-between;
+  background-color: #d12771;
+  padding: 1rem;
+}
+.v-dialog {
+  background: white;
 }
 </style>

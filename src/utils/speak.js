@@ -1,6 +1,12 @@
 function speak(msg) {
-  let x = new SpeechSynthesisUtterance(msg);
-  window.speechSynthesis.speak(x);
+  // TODO replace with IBM Cloud tts
+  const utterance = new SpeechSynthesisUtterance(msg);
+  // console.table(window.speechSynthesis.getVoices());
+  let jpVoice = window.speechSynthesis
+    .getVoices()
+    .findIndex(voice => voice.lang == "ja-JP");
+  utterance.voice = window.speechSynthesis.getVoices()[jpVoice];
+  window.speechSynthesis.speak(utterance);
 }
 
 export default speak;

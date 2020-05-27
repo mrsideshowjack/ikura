@@ -1,9 +1,24 @@
 <template>
   <div class="keypad">
-    <Numpad @tap="addNum" />
+    <transition name="slide">
+      <Numpad key="numpad" v-if="showNumpad" @tap="addNum" />
+      <CounterSelect key="counterSelect" @tap="selectCounter" v-else />
+    </transition>
     <div class="actions">
-      <v-btn text large dark class="action-btn" @click="bksp()">bksp</v-btn>
-      <v-btn text large dark class="action-btn" @click="clear()">clear</v-btn>
+      <v-btn text large dark class="action-btn" @click="bksp()"
+        ><v-icon>mdi-backspace-outline</v-icon></v-btn
+      >
+      <v-btn text large dark class="action-btn" @click="clear()"
+        ><v-icon>mdi-delete-outline</v-icon></v-btn
+      >
+      <v-btn
+        text
+        large
+        dark
+        class="action-btn"
+        @click="showNumpad = !showNumpad"
+        >円</v-btn
+      >
       <v-btn large dark color="primary" class="action-btn" @click="enter()"
         >enter</v-btn
       >
@@ -13,18 +28,29 @@
 
 <script>
 import Numpad from "./Numpad.vue";
+import CounterSelect from "./CounterSelect.vue";
 export default {
   name: "Keypad",
   props: {
     answerNum: String
   },
+  data() {
+    return {
+      showNumpad: true
+    };
+  },
   components: {
-    Numpad
+    Numpad,
+    CounterSelect
   },
   methods: {
     addNum(key) {
       if (this.answerNum && this.answerNum.includes(".") && key == ".") return;
       this.$emit("addNum", key);
+    },
+    selectCounter(index) {
+      this.showNumpad = true;
+      this.$emit("selectCounter", index);
     },
     bksp() {
       this.$emit("bksp");
@@ -62,5 +88,20 @@ export default {
   align-items: center;
   justify-content: center;
   cursor: pointer;
+}
+
+/* Transistions */
+.slide-enter-active,
+.slide-leave-active {
+  transition: all 0.3s;
+}
+
+.slide-enter,
+.slide-leave-to {
+  transform: translate(-100%, 0);
+}
+.slide-enter-to,
+.slide-leave {
+  transform: translate(0, 0);
 }
 </style>

@@ -1,52 +1,42 @@
 <template>
-  <div class="Numpad">
+  <div class="CounterSelect">
     <v-btn
       text
       large
       dark
-      v-for="digit in numpadDigits"
-      :key="digit"
-      @click="emitTap(digit)"
+      v-for="(counter, index) in counters"
+      :key="index"
+      @click="emitTap(index)"
       class="number-btn"
-      >{{ digit }}</v-btn
+      >{{ counter.kanji }}</v-btn
     >
   </div>
 </template>
 
 <script>
+import COUNTERS from "../utils/constants";
 export default {
-  name: "Numpad",
+  name: "CounterSelect",
   data() {
     return {
-      numpadDigits: [
-        "1",
-        "2",
-        "3",
-        "4",
-        "5",
-        "6",
-        "7",
-        "8",
-        "9",
-        "0",
-        "00",
-        "."
-      ]
+      counters: COUNTERS
     };
   },
   methods: {
-    emitTap(key) {
-      this.$emit("tap", key);
+    emitTap(index) {
+      this.$emit("tap", index);
     }
   }
 };
 </script>
 
 <style scoped>
-.Numpad {
+.CounterSelect {
   display: grid;
   justify-items: stretch;
   align-items: stretch;
+  max-height: 70vh;
+  overflow-y: auto;
   grid-template-columns: 1fr 1fr 1fr;
   grid-template-rows: 1fr 1fr 1fr 1fr;
 }
