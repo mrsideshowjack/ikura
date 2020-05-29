@@ -117,6 +117,12 @@ export default {
       this.previousAnswers = JSON.parse(localStorage.previousAnswers);
     }
   },
+  created() {
+    window.addEventListener("keydown", this.doCommand);
+  },
+  destroyed() {
+    window.removeEventListener("keydown", this.doCommand);
+  },
   watch: {
     previousAnswers(newVal) {
       localStorage.previousAnswers = JSON.stringify(newVal);
@@ -150,6 +156,15 @@ export default {
     },
     setAnswerNum(val) {
       this.answerNum = val;
+    },
+    doCommand(e) {
+      let key = e.key;
+      const isNum = /^\d+$/;
+      if (isNum.test(key)) this.addNum(key.toString());
+      else if (key == "Enter") this.answerQuestion();
+      else if (key == "Backspace") this.bksp();
+      else if (key == "n") this.giveUp();
+      else if (key == "r") this.repeatSpeak();
     },
     async answerQuestion() {
       this.tries++;

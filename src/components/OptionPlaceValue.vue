@@ -1,7 +1,7 @@
 <template>
   <div class="OptionPlaceValue">
     <v-btn large icon dark @click="dialog = true">
-      <v-icon>mdi-numeric</v-icon>
+      <v-icon>mdi-ruler</v-icon>
     </v-btn>
 
     <v-dialog v-model="dialog" max-width="290">
@@ -11,7 +11,7 @@
         <v-slider
           v-model="setPlaceValue"
           min="1"
-          max="10"
+          max="6"
           thumb-label
           label="Place Value"
         ></v-slider>

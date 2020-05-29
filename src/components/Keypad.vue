@@ -5,10 +5,10 @@
       <CounterSelect key="counterSelect" @tap="selectCounter" v-else />
     </transition>
     <div class="actions">
-      <v-btn text large dark class="action-btn" @click="bksp()"
+      <v-btn text large dark class="action-btn" @click="bksp"
         ><v-icon>mdi-backspace-outline</v-icon></v-btn
       >
-      <v-btn text large dark class="action-btn" @click="clear()"
+      <v-btn text large dark class="action-btn" @click="clear"
         ><v-icon>mdi-delete-outline</v-icon></v-btn
       >
       <v-btn
@@ -19,7 +19,13 @@
         @click="showNumpad = !showNumpad"
         ><v-icon left>mdi-menu-left-outline</v-icon>円</v-btn
       >
-      <v-btn large dark color="primary" class="action-btn" @click="enter()"
+      <v-btn
+        large
+        dark
+        color="primary"
+        class="action-btn"
+        @click="enter"
+        @keyup.enter="enter"
         ><v-icon>mdi-keyboard-return</v-icon></v-btn
       >
     </div>
