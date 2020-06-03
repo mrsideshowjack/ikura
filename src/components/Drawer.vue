@@ -23,27 +23,24 @@
         </v-list-item-content>
       </v-list-item>
 
-      <v-list-item link>
-        <v-list-item-icon>
-          <v-icon>mdi-cog</v-icon>
-        </v-list-item-icon>
-        <v-list-item-content>
-          <v-list-item-title>Settings</v-list-item-title>
-        </v-list-item-content>
-      </v-list-item>
+      <Settings :settings="settings" @emitSettings="emitSettings" />
     </v-list>
   </div>
 </template>
 
 <script>
 import PreviousAnswers from "./PreviousAnswers.vue";
+import Settings from "./Settings.vue";
 export default {
   name: "Drawer",
-  components: { PreviousAnswers },
-  props: ["previousAnswers"],
+  components: { PreviousAnswers, Settings },
+  props: ["previousAnswers", "settings"],
   methods: {
     emitClearPreviousAnswers() {
       this.$emit("emitClearPreviousAnswers");
+    },
+    emitSettings(val) {
+      this.$emit("emitSettings", val);
     }
   }
 };

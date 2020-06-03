@@ -4,7 +4,7 @@
       text
       large
       dark
-      v-for="(counter, index) in counters"
+      v-for="(counter, index) in availibleCounters"
       :key="index"
       @click="emitTap(index)"
       class="number-btn"
@@ -14,13 +14,10 @@
 </template>
 
 <script>
-import COUNTERS from "../utils/constants";
 export default {
   name: "CounterSelect",
-  data() {
-    return {
-      counters: COUNTERS
-    };
+  props: {
+    availibleCounters: Array
   },
   methods: {
     emitTap(index) {

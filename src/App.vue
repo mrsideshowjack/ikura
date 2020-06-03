@@ -3,7 +3,9 @@
     <v-navigation-drawer app v-model="drawer"
       ><Drawer
         :previousAnswers="previousAnswers"
+        :settings="settings"
         @emitClearPreviousAnswers="clearPreviousAnswers"
+        @emitSettings="setSettings"
     /></v-navigation-drawer>
 
     <v-app-bar absolute flat color="white" app>
@@ -38,6 +40,11 @@
           ><v-icon>mdi-speedometer-slow</v-icon></v-btn
         >
 
+        <OptionSelectCounters
+          @emitCounters="setSelectedCounters"
+          :counters="counters"
+        />
+
         <v-btn large icon dark @click="giveUp()"
           ><v-icon>mdi-new-box</v-icon></v-btn
         >
@@ -52,7 +59,8 @@
         @bksp="bksp"
         @clear="clear"
         @enter="answerQuestion"
-        :answer-num="answerNum"
+        :availibleCounters="availibleCounters"
+        :answerNum="answerNum"
       />
 
       <v-dialog v-model="start" persistent max-width="290">
@@ -83,6 +91,7 @@ import Drawer from "./components/Drawer.vue";
 import Input from "./components/Input.vue";
 import OptionDecimal from "./components/OptionDecimal.vue";
 import OptionPlaceValue from "./components/OptionPlaceValue.vue";
+import OptionSelectCounters from "./components/OptionSelectCounters.vue";
 import Popup from "./components/Popup.vue";
 
 export default {
@@ -93,12 +102,14 @@ export default {
     Input,
     OptionDecimal,
     OptionPlaceValue,
+    OptionSelectCounters,
     Popup
   },
   data() {
     return {
       drawer: false,
       counters: COUNTERS_LIST,
+      selectedCounters: [],
       randNum: null,
       isFloat: false,
       placeValue: 1,
@@ -109,7 +120,10 @@ export default {
       tries: 0,
       slow: false,
       counter: null,
-      start: true
+      start: true,
+      settings: {
+        settingUseHTMLTTS: true
+      }
     };
   },
   mounted() {
@@ -126,6 +140,13 @@ export default {
   watch: {
     previousAnswers(newVal) {
       localStorage.previousAnswers = JSON.stringify(newVal);
+    },
+    settings(newVal) {
+      localStorage.settings = JSON.stringify(newVal);
+    },
+    // Set the counter when there is only 1
+    availibleCounters() {
+      if (this.availibleCounters.length === 1) this.selectCounter(0);
     }
   },
   computed: {
@@ -141,6 +162,13 @@ export default {
         max += "9";
       }
       return parseInt(max);
+    },
+    availibleCounters() {
+      if (this.selectedCounters.length)
+        return this.selectedCounters
+          .slice()
+          .sort((a, b) => (a.order > b.order ? 1 : -1));
+      return this.counters.slice().sort((a, b) => (a.order > b.order ? 1 : -1));
     }
   },
   methods: {
@@ -152,7 +180,9 @@ export default {
     },
     genQuestionValue() {
       this.randNum = _.random(0, this.numMax, this.isFloat);
-      this.counter = this.counters[_.random(0, this.counters.length - 1)];
+      this.counter = this.availibleCounters[
+        _.random(0, this.availibleCounters.length - 1)
+      ];
     },
     setAnswerNum(val) {
       this.answerNum = val;
@@ -169,7 +199,7 @@ export default {
     async answerQuestion() {
       this.tries++;
       if (this.answer == this.questionValue) {
-        speakCorrect();
+        speakCorrect(this.settings.settingUseHTMLTTS);
         this.previousAnswers.push({
           questionValue: this.questionValue,
           answer: this.answer,
@@ -180,7 +210,7 @@ export default {
           this.newQuestion();
         });
       } else {
-        speakIncorrect();
+        speakIncorrect(this.settings.settingUseHTMLTTS);
       }
     },
     async giveUp() {
@@ -195,6 +225,12 @@ export default {
         this.newQuestion();
       });
     },
+    setSelectedCounters(val) {
+      this.selectedCounters = val;
+    },
+    setSettings(val) {
+      this.settings = val;
+    },
     setFloat(val) {
       this.isFloat = val.bool;
       this.decimalPlace = val.decimalPlace;
@@ -204,13 +240,17 @@ export default {
       this.placeValue = val;
     },
     repeatSpeak() {
-      speak(this.questionValue.trim(), this.slow);
+      speak(
+        this.questionValue.trim(),
+        this.slow,
+        this.settings.settingUseHTMLTTS
+      );
     },
     addNum(key) {
       this.answerNum = this.answerNum + key;
     },
     selectCounter(index) {
-      this.answerCounter = this.counters[index];
+      this.answerCounter = this.availibleCounters[index];
     },
     bksp() {
       this.answerNum = this.answerNum.slice(0, -1);

@@ -2,7 +2,12 @@
   <div class="keypad">
     <transition :name="showNumpad ? 'slide-left' : 'slide-right'">
       <Numpad key="numpad" v-if="showNumpad" @tap="addNum" />
-      <CounterSelect key="counterSelect" @tap="selectCounter" v-else />
+      <CounterSelect
+        key="counterSelect"
+        @tap="selectCounter"
+        :availibleCounters="availibleCounters"
+        v-else
+      />
     </transition>
     <div class="actions">
       <v-btn text large dark class="action-btn" @click="bksp"
@@ -38,7 +43,8 @@ import CounterSelect from "./CounterSelect.vue";
 export default {
   name: "Keypad",
   props: {
-    answerNum: String
+    answerNum: String,
+    availibleCounters: Array
   },
   data() {
     return {

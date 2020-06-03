@@ -3,9 +3,11 @@ import { Howl } from "howler";
 var previousAudio;
 var previousMsg;
 
-export function speak(msg, slow) {
+export function speak(msg, slow, useHTMLTTS) {
   if (msg === previousMsg) {
     speakRepeat(slow);
+  } else if (useHTMLTTS) {
+    speakHTML(msg, slow);
   } else {
     const instance = process.env.VUE_APP_INSTANCE;
     const iam_api_key = process.env.VUE_APP_IAM_API_KEY;
@@ -37,15 +39,31 @@ export function speakRepeat(slow) {
   previousAudio.play();
 }
 
-export function speakCorrect() {
-  let sound = new Howl({
-    src: require("../../public/audio/correct.mp3")
-  });
-  sound.play();
+export function speakCorrect(useHTMLTTS) {
+  if (useHTMLTTS) speakHTML("正解");
+  else {
+    let sound = new Howl({
+      src: require("../../public/audio/correct.mp3")
+    });
+    sound.play();
+  }
 }
-export function speakIncorrect() {
-  let sound = new Howl({
-    src: require("../../public/audio/incorrect.mp3")
-  });
-  sound.play();
+export function speakIncorrect(useHTMLTTS) {
+  if (useHTMLTTS) speakHTML("違う");
+  else {
+    let sound = new Howl({
+      src: require("../../public/audio/incorrect.mp3")
+    });
+    sound.play();
+  }
+}
+
+function speakHTML(msg, slow) {
+  const utterance = new SpeechSynthesisUtterance(msg);
+  let jpVoice = window.speechSynthesis
+    .getVoices()
+    .findIndex(voice => voice.lang == "ja-JP");
+  utterance.voice = window.speechSynthesis.getVoices()[jpVoice];
+  if (slow) utterance.rate = 0.5;
+  window.speechSynthesis.speak(utterance);
 }
