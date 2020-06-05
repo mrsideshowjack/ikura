@@ -65,6 +65,7 @@
 
       <v-dialog v-model="start" persistent max-width="290">
         <v-card>
+          <v-toolbar-title>Ikura</v-toolbar-title>
           <v-card-actions class="start">
             <v-btn
               color="primary"
@@ -129,6 +130,9 @@ export default {
   mounted() {
     if (localStorage.previousAnswers) {
       this.previousAnswers = JSON.parse(localStorage.previousAnswers);
+    }
+    if (localStorage.settings) {
+      this.settings = JSON.parse(localStorage.settings);
     }
   },
   created() {
