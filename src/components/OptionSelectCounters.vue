@@ -9,8 +9,14 @@
       fullscreen
       hide-overlay
       transition="dialog-bottom-transition"
-      ><v-card-title>Select Counters</v-card-title>
+      ><v-card-title
+        >Select Counters
+        <v-btn text @click="dialog = false" style="margin-left:auto;">
+          Close
+        </v-btn></v-card-title
+      >
       <v-btn @click="selectAll">Select all</v-btn>
+
       <v-divider></v-divider>
       <v-card-text>
         <v-list flat>
@@ -39,13 +45,6 @@
           </v-list-item-group>
         </v-list>
       </v-card-text>
-      <v-divider></v-divider>
-      <v-card-actions>
-        <v-spacer></v-spacer>
-        <v-btn text @click="dialog = false">
-          Close
-        </v-btn>
-      </v-card-actions>
     </v-dialog>
   </div>
 </template>

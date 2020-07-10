@@ -16,6 +16,10 @@
       <Input :answer-num="answerNum" :answer-counter="answerCounter.kanji" />
       <Popup ref="popup" :randNum="randNum" :counter="counter" />
 
+      <transition name="fade">
+        <v-icon v-if="speaking" class="speaking-icon">mdi-volume-high</v-icon>
+      </transition>
+
       <section class="options">
         <OptionPlaceValue
           @emitPlaceVal="setPlaceValue"
@@ -54,6 +58,7 @@
       </section>
 
       <Keypad
+        v-if="!start"
         @addNum="addNum"
         @selectCounter="selectCounter"
         @bksp="bksp"
@@ -62,23 +67,17 @@
         :availibleCounters="availibleCounters"
         :answerNum="answerNum"
       />
-
-      <v-dialog v-model="start" persistent max-width="290">
-        <v-card>
-          <v-toolbar-title>Ikura</v-toolbar-title>
-          <v-card-actions class="start">
-            <v-btn
-              color="primary"
-              x-large
-              @click="
-                start = false;
-                newQuestion();
-              "
-              >Start</v-btn
-            >
-          </v-card-actions>
-        </v-card>
-      </v-dialog>
+      <div v-else class="start">
+        <v-btn
+          color="primary"
+          x-large
+          @click="
+            start = false;
+            newQuestion();
+          "
+          >Start</v-btn
+        >
+      </div>
     </v-content>
   </v-app>
 </template>
@@ -122,6 +121,7 @@ export default {
       slow: false,
       counter: null,
       start: true,
+      speaking: false,
       settings: {
         settingUseHTMLTTS: true
       }
@@ -136,10 +136,13 @@ export default {
     }
   },
   created() {
+    // Listen for the event.
+    window.addEventListener("spoken", this.hasSpoken);
     window.addEventListener("keydown", this.doCommand);
   },
   destroyed() {
     window.removeEventListener("keydown", this.doCommand);
+    window.removeEventListener("spoken", this.hasSpoken);
   },
   watch: {
     previousAnswers(newVal) {
@@ -190,6 +193,9 @@ export default {
     },
     setAnswerNum(val) {
       this.answerNum = val;
+    },
+    hasSpoken() {
+      this.speaking = false;
     },
     doCommand(e) {
       let key = e.key;
@@ -244,6 +250,7 @@ export default {
       this.placeValue = val;
     },
     repeatSpeak() {
+      this.speaking = true;
       speak(
         this.questionValue.trim(),
         this.slow,
@@ -283,6 +290,17 @@ export default {
   align-items: center;
   justify-content: flex-end;
 }
+.speaking {
+  margin: 1rem;
+  padding: 0.5rem;
+  border-radius: 50%;
+}
+.speaking-icon {
+  margin: 1rem;
+  padding: 0.5rem;
+  border-radius: 50%;
+  border: 1px solid lightgray;
+}
 .options {
   display: flex;
   width: 100vw;
@@ -292,13 +310,24 @@ export default {
   padding: 1rem;
   z-index: 1;
 }
-.v-dialog {
-  background: white;
-}
 .start {
-  padding: 2rem;
+  width: 100vw;
+  max-height: 60vh;
+  height: calc(60vh / 5 * 4);
   display: flex;
   justify-content: center;
   align-items: center;
+  background: #222222;
+  color: white;
+  z-index: 1;
+}
+
+/* Transitions */
+.fade-enter-active,
+.fade-leave-active {
+  transition: opacity 0.5s;
+}
+.fade-enter, .fade-leave-to /* .fade-leave-active below version 2.1.8 */ {
+  opacity: 0;
 }
 </style>

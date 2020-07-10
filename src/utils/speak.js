@@ -3,7 +3,7 @@ import { Howl } from "howler";
 var previousAudio;
 var previousMsg;
 
-export function speak(msg, slow, useHTMLTTS) {
+export async function speak(msg, slow, useHTMLTTS) {
   if (msg === previousMsg) {
     speakRepeat(slow);
   } else if (useHTMLTTS) {
@@ -31,6 +31,10 @@ export function speak(msg, slow, useHTMLTTS) {
     audio.play();
     previousMsg = msg;
     previousAudio = audio;
+    audio.on("end", function() {
+      const event = new Event("spoken");
+      window.dispatchEvent(event);
+    });
   }
 }
 
