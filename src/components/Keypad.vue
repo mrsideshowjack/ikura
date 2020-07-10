@@ -84,15 +84,15 @@ export default {
   display: flex;
   justify-content: stretch;
   align-items: stretch;
-  background: #222222;
-  color: white;
+  background: var(--keypad-background);
+  color: var(--white-txt);
   z-index: 1;
 }
 .actions {
   display: flex;
   flex-direction: column;
   align-items: center;
-  background: #2f2f2f;
+  background: var(--keypad-actions);
   /* add margin + zindex for when transistion happends */
   margin-left: auto;
   z-index: 2;
@@ -105,29 +105,5 @@ export default {
   justify-content: center;
   cursor: pointer;
   font-size: 1.7rem !important;
-}
-
-/* Transistions */
-.slide-left-enter-active,
-.slide-left-leave-active,
-.slide-right-enter-active,
-.slide-right-leave-active {
-  transition: all 0.3s;
-  overflow-y: hidden;
-  position: fixed;
-}
-
-.slide-left-enter {
-  transform: translateX(-100%);
-}
-.slide-left-leave-to {
-  transform: translateX(100%);
-}
-
-.slide-right-enter {
-  transform: translateX(100%);
-}
-.slide-right-leave-to {
-  transform: translateX(-100%);
 }
 </style>

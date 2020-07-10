@@ -10,29 +10,34 @@
 
     <v-app-bar absolute flat color="white" app>
       <v-app-bar-nav-icon @click.stop="drawer = !drawer"></v-app-bar-nav-icon>
-      <v-toolbar-title>Ikura?</v-toolbar-title>
+      <v-toolbar-title>TODO name app</v-toolbar-title>
     </v-app-bar>
     <v-content class="content">
-      <Input :answer-num="answerNum" :answer-counter="answerCounter.kanji" />
       <Popup ref="popup" :randNum="randNum" :counter="counter" />
+      <Input
+        :answer-num="answerNum"
+        :answer-counter="answerCounter.kanji"
+        :color="inputColor"
+      />
 
       <transition name="fade">
         <v-icon v-if="speaking" class="speaking-icon">mdi-volume-high</v-icon>
       </transition>
 
-      <section class="options">
-        <OptionPlaceValue
-          @emitPlaceVal="setPlaceValue"
-          :placeValue="placeValue"
-        />
+      <transition name="push">
+        <section class="options" v-if="!start">
+          <OptionPlaceValue
+            @emitPlaceVal="setPlaceValue"
+            :placeValue="placeValue"
+          />
 
-        <OptionDecimal
-          @emitFloatVal="setFloat"
-          :isFloat="isFloat"
-          :decimalPlace="decimalPlace"
-        />
+          <OptionDecimal
+            @emitFloatVal="setFloat"
+            :isFloat="isFloat"
+            :decimalPlace="decimalPlace"
+          />
 
-        <v-btn
+          <!-- <v-btn
           large
           icon
           dark
@@ -42,20 +47,21 @@
             repeatSpeak();
           "
           ><v-icon>mdi-speedometer-slow</v-icon></v-btn
-        >
+        > -->
 
-        <OptionSelectCounters
-          @emitCounters="setSelectedCounters"
-          :counters="counters"
-        />
+          <OptionSelectCounters
+            @emitCounters="setSelectedCounters"
+            :counters="counters"
+          />
 
-        <v-btn large icon dark @click="giveUp()"
-          ><v-icon>mdi-new-box</v-icon></v-btn
-        >
-        <v-btn large icon dark @click="repeatSpeak()"
-          ><v-icon>mdi-replay</v-icon></v-btn
-        >
-      </section>
+          <v-btn large icon dark @click="giveUp()"
+            ><v-icon>mdi-new-box</v-icon></v-btn
+          >
+          <v-btn large icon dark @click="repeatSpeak()"
+            ><v-icon>mdi-replay</v-icon></v-btn
+          >
+        </section>
+      </transition>
 
       <Keypad
         v-if="!start"
@@ -111,6 +117,7 @@ export default {
       counters: COUNTERS_LIST,
       selectedCounters: [],
       randNum: null,
+      inputColor: null,
       isFloat: false,
       placeValue: 1,
       decimalPlace: 1,
@@ -123,7 +130,7 @@ export default {
       start: true,
       speaking: false,
       settings: {
-        settingUseHTMLTTS: true
+        settingUseHTMLTTS: false
       }
     };
   },
@@ -196,6 +203,7 @@ export default {
     },
     hasSpoken() {
       this.speaking = false;
+      this.inputColor = null;
     },
     doCommand(e) {
       let key = e.key;
@@ -208,7 +216,9 @@ export default {
     },
     async answerQuestion() {
       this.tries++;
+      this.speaking = true;
       if (this.answer == this.questionValue) {
+        this.inputColor = "green";
         speakCorrect(this.settings.settingUseHTMLTTS);
         this.previousAnswers.push({
           questionValue: this.questionValue,
@@ -220,6 +230,7 @@ export default {
           this.newQuestion();
         });
       } else {
+        this.inputColor = "red";
         speakIncorrect(this.settings.settingUseHTMLTTS);
       }
     },
@@ -277,7 +288,9 @@ export default {
 };
 </script>
 
-<style>
+<style lang="css">
+@import "./assets/css/main.css";
+
 #app {
   font-family: Avenir, Helvetica, Arial, sans-serif;
   -webkit-font-smoothing: antialiased;
@@ -289,6 +302,9 @@ export default {
   flex-direction: column;
   align-items: center;
   justify-content: flex-end;
+}
+.v-dialog {
+  background: var(--white-background);
 }
 .speaking {
   margin: 1rem;
@@ -306,7 +322,7 @@ export default {
   width: 100vw;
   flex-wrap: wrap;
   justify-content: space-around;
-  background-color: #d12771;
+  background-color: var(--main-pink);
   padding: 1rem;
   z-index: 1;
 }
@@ -317,17 +333,8 @@ export default {
   display: flex;
   justify-content: center;
   align-items: center;
-  background: #222222;
-  color: white;
+  background: var(--keypad-background);
+  color: var(--white-txt);
   z-index: 1;
-}
-
-/* Transitions */
-.fade-enter-active,
-.fade-leave-active {
-  transition: opacity 0.5s;
-}
-.fade-enter, .fade-leave-to /* .fade-leave-active below version 2.1.8 */ {
-  opacity: 0;
 }
 </style>

@@ -18,7 +18,7 @@
       <v-btn @click="selectAll">Select all</v-btn>
 
       <v-divider></v-divider>
-      <v-card-text>
+      <v-card-text class="counters-list">
         <v-list flat>
           <v-list-item-group v-model="selectedCounters" multiple>
             <template v-for="(item, index) in counters">
@@ -80,5 +80,9 @@ export default {
 }
 .counter-button {
   font-size: 1.5rem;
+}
+.counters-list {
+  overflow-y: auto;
+  max-height: 85vh;
 }
 </style>

@@ -3,6 +3,7 @@
     <transition name="fade">
       <v-alert
         v-if="showPopup"
+        class="alert"
         dense
         outlined
         :type="correct ? 'success' : 'error'"
@@ -58,7 +59,16 @@ export default {
 
 <style scoped>
 .Popup {
-  z-index: 0;
+  z-index: 3;
+  position: fixed;
+  top: 3rem;
+  right: 0;
+  left: 0;
+  display: flex;
+  justify-content: center;
+}
+.alert {
+  background: var(--white-background);
 }
 .fade-enter-active,
 .fade-leave-active {
@@ -66,6 +76,6 @@ export default {
 }
 .fade-enter,
 .fade-leave-to {
-  transform: translateY(100%);
+  transform: translateY(-100%);
 }
 </style>

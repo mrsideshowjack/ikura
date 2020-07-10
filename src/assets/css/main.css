@@ -1,0 +1,51 @@
+:root{
+    --main-pink: #d12771;
+    --keypad-background: #222222;
+    --keypad-actions: #2f2f2f;
+    --white-txt: white;
+    --white-background: white;
+}
+
+/* Transitions */
+
+/* fade in */
+.fade-enter-active,
+.fade-leave-active {
+  transition: opacity 0.5s;
+}
+.fade-enter, .fade-leave-to /* .fade-leave-active below version 2.1.8 */ {
+  opacity: 0;
+}
+
+/* horizontal slide in */
+.slide-left-enter-active,
+.slide-left-leave-active,
+.slide-right-enter-active,
+.slide-right-leave-active {
+  transition: all 0.3s;
+  overflow-y: hidden;
+  position: fixed;
+}
+
+.slide-left-enter {
+  transform: translateX(-100%);
+}
+.slide-left-leave-to {
+  transform: translateX(100%);
+}
+
+.slide-right-enter {
+  transform: translateX(100%);
+}
+.slide-right-leave-to {
+  transform: translateX(-100%);
+}
+
+/* vertical slide in */
+.push-enter-active,
+.push-leave-active {
+    transition: all 0.3s;
+}
+.push-enter, .push-leave-to{
+    transform: translateY(100%);
+}

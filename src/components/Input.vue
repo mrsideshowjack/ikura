@@ -1,5 +1,5 @@
 <template>
-  <div class="Input">
+  <div class="Input" :class="inputColor">
     <span class="display-3" v-if="answerNum">{{ answerNum }}</span>
     <span class="display-3 text--disabled" v-else>000</span>
 
@@ -11,7 +11,14 @@
 <script>
 export default {
   name: "Input",
-  props: ["answerNum", "answerCounter"]
+  props: ["answerNum", "answerCounter", "color"],
+  computed: {
+    inputColor() {
+      if (this.color === "red") return "colorRed";
+      if (this.color === "green") return "colorGreen";
+      else return "";
+    }
+  }
 };
 </script>
 
@@ -20,16 +27,23 @@ export default {
   flex: auto;
   width: 85%;
   max-height: 23vh;
-  margin: 1rem 0rem;
+  margin: 3rem 0rem;
   display: flex;
   align-items: center;
   justify-content: space-between;
   overflow-y: auto;
   word-wrap: break-word;
   margin-bottom: auto;
+  transition: color 0.2s;
 }
 .Input span {
   max-width: 85%;
   text-align: left;
+}
+.colorRed {
+  color: red;
+}
+.colorGreen {
+  color: green;
 }
 </style>

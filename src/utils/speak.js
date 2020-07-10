@@ -50,6 +50,10 @@ export function speakCorrect(useHTMLTTS) {
       src: require("../../public/audio/correct.mp3")
     });
     sound.play();
+    sound.on("end", function() {
+      const event = new Event("spoken");
+      window.dispatchEvent(event);
+    });
   }
 }
 export function speakIncorrect(useHTMLTTS) {
@@ -59,6 +63,10 @@ export function speakIncorrect(useHTMLTTS) {
       src: require("../../public/audio/incorrect.mp3")
     });
     sound.play();
+    sound.on("end", function() {
+      const event = new Event("spoken");
+      window.dispatchEvent(event);
+    });
   }
 }
 
