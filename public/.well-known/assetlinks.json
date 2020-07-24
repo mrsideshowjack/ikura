@@ -1,0 +1,5 @@
+[{
+      "relation": ["delegate_permission/common.handle_all_urls"],
+      "target" : { "namespace": "android_app", "package_name": "app.netlify.josushi.twa",
+                   "sha256_cert_fingerprints": ["F3:E0:BD:C8:9C:EA:F5:4E:2E:0A:43:57:05:48:7E:D5:5A:98:51:6C:4E:7D:AB:38:07:F0:C2:BE:31:40:EC:BA"] }
+    }]
