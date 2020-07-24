@@ -235,6 +235,7 @@ export default {
       }
     },
     async giveUp() {
+      this.inputColor = "red";
       this.repeatSpeak();
       this.previousAnswers.push({
         questionValue: this.questionValue,

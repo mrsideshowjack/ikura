@@ -1,7 +1,7 @@
 module.exports = {
   transpileDependencies: ["vuetify"],
   pwa: {
-    name: "Ikura",
+    name: "Josūshi",
     themeColor: "#d12771",
     msTileColor: "#000000",
     appleMobileWebAppCapable: "yes",
