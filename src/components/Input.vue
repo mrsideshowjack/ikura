@@ -1,10 +1,10 @@
 <template>
   <div class="Input" :class="inputColor">
     <span class="display-3" v-if="answerNum">{{ answerNum }}</span>
-    <span class="display-3 text--disabled" v-else>000</span>
+    <span class="display-3 text--placeholder" v-else>000</span>
 
     <span class="display-3" v-if="answerCounter">{{ answerCounter }}</span>
-    <span class="display-3 text--disabled" v-else>?</span>
+    <span class="display-3 text--placeholder" v-else>?</span>
   </div>
 </template>
 
@@ -45,5 +45,8 @@ export default {
 }
 .colorGreen {
   color: green;
+}
+.text--placeholder {
+  color: rgb(0 0 0 / 42%);
 }
 </style>

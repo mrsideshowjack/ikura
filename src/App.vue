@@ -9,7 +9,10 @@
     /></v-navigation-drawer>
 
     <v-app-bar absolute flat color="white" app>
-      <v-app-bar-nav-icon @click.stop="drawer = !drawer"></v-app-bar-nav-icon>
+      <v-app-bar-nav-icon
+        @click.stop="drawer = !drawer"
+        aria-label="drawer icon button"
+      ></v-app-bar-nav-icon>
       <v-toolbar-title>Josūshi</v-toolbar-title>
     </v-app-bar>
     <v-content class="content">
