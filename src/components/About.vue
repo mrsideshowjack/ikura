@@ -9,7 +9,7 @@
       <template v-slot:activator="{ on }">
         <v-list-item link v-on="on">
           <v-list-item-icon>
-            <v-icon>mdi-account-circle-outline</v-icon>
+            <v-icon>{{ icoAccountCircleOutline }}</v-icon>
           </v-list-item-icon>
           <v-list-item-content>
             <v-list-item-title>About</v-list-item-title>
@@ -20,7 +20,7 @@
       <v-card>
         <v-toolbar dark>
           <v-btn icon dark @click="dialog = false">
-            <v-icon>mdi-close</v-icon>
+            <v-icon>{{ icoClose }}</v-icon>
           </v-btn>
           <v-toolbar-title>About</v-toolbar-title>
           <v-spacer></v-spacer>
@@ -34,11 +34,16 @@
 </template>
 
 <script>
+// Icons
+import { mdiClose, mdiAccountCircleOutline } from "@mdi/js";
 export default {
   name: "About",
   data() {
     return {
-      dialog: false
+      dialog: false,
+      // Icons
+      icoClose: mdiClose,
+      icoAccountCircleOutline: mdiAccountCircleOutline
     };
   }
 };

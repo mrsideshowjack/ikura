@@ -9,7 +9,7 @@
       <template v-slot:activator="{ on }">
         <v-list-item link v-on="on">
           <v-list-item-icon>
-            <v-icon>mdi-history</v-icon>
+            <v-icon>{{ icoHistory }}</v-icon>
           </v-list-item-icon>
           <v-list-item-content>
             <v-list-item-title>Previous Answers</v-list-item-title>
@@ -20,13 +20,13 @@
       <v-card>
         <v-toolbar dark>
           <v-btn icon dark @click="dialog = false">
-            <v-icon>mdi-close</v-icon>
+            <v-icon>{{ icoClose }}</v-icon>
           </v-btn>
           <v-toolbar-title>Previous Answers</v-toolbar-title>
           <v-spacer></v-spacer>
           <v-toolbar-items>
             <v-btn dark text color="error" @click="emitClearPreviousAnswers"
-              ><v-icon left>mdi-delete</v-icon> Clear</v-btn
+              ><v-icon left>{{ icoDelete }}</v-icon> Clear</v-btn
             >
           </v-toolbar-items>
         </v-toolbar>
@@ -38,10 +38,11 @@
           >
             <v-list-item-content>
               <v-list-item-title v-if="item.correct"
-                ><v-icon left>mdi-check</v-icon> Correct</v-list-item-title
+                ><v-icon left>{{ icoCheck }}</v-icon> Correct</v-list-item-title
               >
               <v-list-item-title v-else
-                ><v-icon left>mdi-close</v-icon> Incorrect</v-list-item-title
+                ><v-icon left>{{ icoClose }}</v-icon>
+                Incorrect</v-list-item-title
               >
               <v-list-item-subtitle
                 >Question: {{ item.questionValue }}</v-list-item-subtitle
@@ -61,12 +62,19 @@
 </template>
 
 <script>
+// Icons
+import { mdiHistory, mdiClose, mdiDelete, mdiCheck } from "@mdi/js";
 export default {
   name: "PreviousAnswers",
   props: ["previousAnswers"],
   data() {
     return {
-      dialog: false
+      dialog: false,
+      // Icons
+      icoHistory: mdiHistory,
+      icoClose: mdiClose,
+      icoDelete: mdiDelete,
+      icoCheck: mdiCheck
     };
   },
   methods: {

@@ -1,7 +1,7 @@
 <template>
   <div class="OptionPlaceValue">
     <v-btn large icon dark @click="dialog = true">
-      <v-icon>mdi-ruler</v-icon>
+      <v-icon>{{ icoRuler }}</v-icon>
     </v-btn>
 
     <v-dialog v-model="dialog" max-width="290">
@@ -36,12 +36,16 @@
 </template>
 
 <script>
+// Icons
+import { mdiRuler } from "@mdi/js";
 export default {
   name: "OptionPlaceValue",
   data() {
     return {
       dialog: false,
-      setPlaceValue: this.placeValue || null
+      setPlaceValue: this.placeValue || null,
+      // Icons
+      icoRuler: mdiRuler
     };
   },
   methods: {

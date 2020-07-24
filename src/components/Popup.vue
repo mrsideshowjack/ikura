@@ -7,7 +7,7 @@
         dense
         outlined
         :type="correct ? 'success' : 'error'"
-        :icon="correct ? 'mdi-check' : 'mdi-close'"
+        :icon="correct ? icoCheck : icoClose"
       >
         <strong v-if="correct">Correct </strong>
         <strong v-else>Incorrect </strong>
@@ -25,6 +25,8 @@
 </template>
 
 <script>
+// Icons
+import { mdiCheck, mdiClose } from "@mdi/js";
 export default {
   name: "Popup",
   props: ["counter", "randNum"],
@@ -32,7 +34,10 @@ export default {
     return {
       popupTime: 2000,
       showPopup: false,
-      correct: true
+      correct: true,
+      // Icons
+      icoCheck: mdiCheck,
+      icoClose: mdiClose
     };
   },
   methods: {

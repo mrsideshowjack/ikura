@@ -11,10 +11,10 @@
     </transition>
     <div class="actions">
       <v-btn text large dark class="action-btn" @click="bksp"
-        ><v-icon>mdi-backspace-outline</v-icon></v-btn
+        ><v-icon>{{ icoBackspaceOutline }}</v-icon></v-btn
       >
       <v-btn text large dark class="action-btn" @click="clear"
-        ><v-icon>mdi-delete-outline</v-icon></v-btn
+        ><v-icon>{{ icoDeleteOutline }}</v-icon></v-btn
       >
       <v-btn
         text
@@ -22,7 +22,8 @@
         dark
         class="action-btn"
         @click="showNumpad = !showNumpad"
-        ><v-icon left>mdi-menu-left-outline</v-icon>円</v-btn
+        ><v-icon left>{{ icoMenuLeftOutline }}</v-icon
+        >円</v-btn
       >
       <v-btn
         large
@@ -31,7 +32,7 @@
         class="action-btn"
         @click="enter"
         @keyup.enter="enter"
-        ><v-icon>mdi-keyboard-return</v-icon></v-btn
+        ><v-icon>{{ icoKeyboardReturn }}</v-icon></v-btn
       >
     </div>
   </div>
@@ -40,6 +41,13 @@
 <script>
 import Numpad from "./Numpad.vue";
 import CounterSelect from "./CounterSelect.vue";
+// Icons
+import {
+  mdiBackspaceOutline,
+  mdiDeleteOutline,
+  mdiMenuLeftOutline,
+  mdiKeyboardReturn
+} from "@mdi/js";
 export default {
   name: "Keypad",
   props: {
@@ -48,7 +56,12 @@ export default {
   },
   data() {
     return {
-      showNumpad: true
+      showNumpad: true,
+      // Icons
+      icoBackspaceOutline: mdiBackspaceOutline,
+      icoDeleteOutline: mdiDeleteOutline,
+      icoMenuLeftOutline: mdiMenuLeftOutline,
+      icoKeyboardReturn: mdiKeyboardReturn
     };
   },
   components: {

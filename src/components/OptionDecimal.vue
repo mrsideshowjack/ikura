@@ -1,7 +1,7 @@
 <template>
   <div class="OptionDecimal">
     <v-btn large icon dark :outlined="isFloat" @click="dialog = true">
-      <v-icon>mdi-counter</v-icon>
+      <v-icon>{{ icoCounter }}</v-icon>
     </v-btn>
 
     <v-dialog v-model="dialog" max-width="290"
@@ -39,6 +39,7 @@
 </template>
 
 <script>
+import { mdiCounter } from "@mdi/js";
 export default {
   name: "OptionDecimal",
   props: ["isFloat", "decimalPlace"],
@@ -46,7 +47,9 @@ export default {
     return {
       dialog: false,
       setIsFloat: this.isFloat || null,
-      setDecimalPlace: this.decimalPlace || null
+      setDecimalPlace: this.decimalPlace || null,
+      // Icons
+      icoCounter: mdiCounter
     };
   },
   methods: {

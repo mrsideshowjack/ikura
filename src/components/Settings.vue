@@ -9,7 +9,7 @@
       <template v-slot:activator="{ on }">
         <v-list-item link v-on="on">
           <v-list-item-icon>
-            <v-icon>mdi-cog</v-icon>
+            <v-icon>{{ icoCog }}</v-icon>
           </v-list-item-icon>
           <v-list-item-content>
             <v-list-item-title>Settings</v-list-item-title>
@@ -20,7 +20,7 @@
       <v-card>
         <v-toolbar dark>
           <v-btn icon dark @click="dialog = false">
-            <v-icon>mdi-close</v-icon>
+            <v-icon>{{ icoClose }}</v-icon>
           </v-btn>
           <v-toolbar-title>Settings</v-toolbar-title>
           <v-spacer></v-spacer>
@@ -65,13 +65,18 @@
 </template>
 
 <script>
+// Icons
+import { mdiCog, mdiClose } from "@mdi/js";
 export default {
   name: "Settings",
   props: ["settings"],
   data() {
     return {
       dialog: false,
-      settingUseHTMLTTS: false
+      settingUseHTMLTTS: false,
+      // Icons
+      icoCog: mdiCog,
+      icoClose: mdiClose
     };
   },
   computed: {

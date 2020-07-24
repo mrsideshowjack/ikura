@@ -21,7 +21,9 @@
       />
 
       <transition name="fade">
-        <v-icon v-if="speaking" class="speaking-icon">mdi-volume-high</v-icon>
+        <v-icon v-if="speaking" class="speaking-icon">
+          {{ icoVolumeHigh }}</v-icon
+        >
       </transition>
 
       <transition name="push">
@@ -37,28 +39,16 @@
             :decimalPlace="decimalPlace"
           />
 
-          <!-- <v-btn
-          large
-          icon
-          dark
-          :outlined="slow"
-          @click="
-            slow = !slow;
-            repeatSpeak();
-          "
-          ><v-icon>mdi-speedometer-slow</v-icon></v-btn
-        > -->
-
           <OptionSelectCounters
             @emitCounters="setSelectedCounters"
             :counters="counters"
           />
 
           <v-btn large icon dark @click="giveUp()"
-            ><v-icon>mdi-new-box</v-icon></v-btn
+            ><v-icon>{{ icoNewBox }}</v-icon></v-btn
           >
           <v-btn large icon dark @click="repeatSpeak()"
-            ><v-icon>mdi-replay</v-icon></v-btn
+            ><v-icon>{{ icoReplay }}</v-icon></v-btn
           >
         </section>
       </transition>
@@ -90,8 +80,10 @@
 
 <script>
 import _ from "lodash";
+// Utils / consts
 import { speakCorrect, speakIncorrect, speak } from "./utils/speak";
 import COUNTERS_LIST from "./utils/constants";
+// Components
 import Keypad from "./components/Keypad.vue";
 import Drawer from "./components/Drawer.vue";
 import Input from "./components/Input.vue";
@@ -99,6 +91,8 @@ import OptionDecimal from "./components/OptionDecimal.vue";
 import OptionPlaceValue from "./components/OptionPlaceValue.vue";
 import OptionSelectCounters from "./components/OptionSelectCounters.vue";
 import Popup from "./components/Popup.vue";
+// Icons
+import { mdiNewBox, mdiReplay, mdiVolumeHigh } from "@mdi/js";
 
 export default {
   name: "App",
@@ -131,7 +125,11 @@ export default {
       speaking: false,
       settings: {
         settingUseHTMLTTS: false
-      }
+      },
+      // Icons
+      icoNewBox: mdiNewBox,
+      icoReplay: mdiReplay,
+      icoVolumeHigh: mdiVolumeHigh
     };
   },
   mounted() {
