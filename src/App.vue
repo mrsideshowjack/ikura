@@ -10,7 +10,7 @@
 
     <v-app-bar absolute flat color="white" app>
       <v-app-bar-nav-icon @click.stop="drawer = !drawer"></v-app-bar-nav-icon>
-      <v-toolbar-title>TODO name app</v-toolbar-title>
+      <v-toolbar-title>Josūshi</v-toolbar-title>
     </v-app-bar>
     <v-content class="content">
       <Popup ref="popup" :randNum="randNum" :counter="counter" />
