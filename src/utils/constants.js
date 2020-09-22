@@ -106,13 +106,6 @@ const COUNTERS = [
   },
   {
     order: 15,
-    hiragana: "わ",
-    romanji: "wa",
-    kanji: "羽",
-    use: "Things with wings ( All birds, rabbits, not insects)"
-  },
-  {
-    order: 16,
     hiragana: "かげつ",
     romanji: "kagetsu",
     kanji: "箇月",
