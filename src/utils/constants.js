@@ -64,10 +64,59 @@ const COUNTERS = [
   },
   {
     order: 9,
-    hiragana: "かい / がい ",
+    hiragana: "かい / がい",
     romanji: "kai / gai",
     kanji: "階",
     use: "Number of floors, stories"
+  },
+  {
+    order: 10,
+    hiragana: "ほん / ぽん",
+    romanji: "hon / pon",
+    kanji: "本",
+    use: "Stick-shaped or long things (pens, trees)"
+  },
+  {
+    order: 11,
+    hiragana: "とう",
+    romanji: "tou",
+    kanji: "頭",
+    use: "Large animals you can't pick up (cows, tigers)"
+  },
+  {
+    order: 12,
+    hiragana: "まい",
+    romanji: "mai",
+    kanji: "枚",
+    use: "Flat things (paper, cards, shirts)"
+  },
+  {
+    order: 13,
+    hiragana: "ひき",
+    romanji: "hiki",
+    kanji: "匹",
+    use: "Small or medium-sized animals (cats, fish, naughty children)"
+  },
+  {
+    order: 14,
+    hiragana: "だい",
+    romanji: "dai",
+    kanji: "台",
+    use: "Equipment (TV, cars, computers)"
+  },
+  {
+    order: 15,
+    hiragana: "わ",
+    romanji: "wa",
+    kanji: "羽",
+    use: "Things with wings ( All birds, rabbits, not insects)"
+  },
+  {
+    order: 16,
+    hiragana: "かげつ",
+    romanji: "kagetsu",
+    kanji: "箇月",
+    use: "Number of months (eg. 'for 3 months')"
   }
 ];
 
